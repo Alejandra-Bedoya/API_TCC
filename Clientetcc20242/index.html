@@ -167,27 +167,55 @@
         </div>
     </section>
 
-    <!-- Registro de Mercancía -->
-    <section class="bg-light py-5" id="registroMercancia">
-        <div class="container">
-            <h2 class="text-center text-dark mb-4">Registro de Mercancía</h2>
-            <div class="row justify-content-center">
-                <div class="col-md-8">
-                    <form class="p-5 border rounded shadow-sm bg-white fade-in">
-                        <label for="nombremercancia" class="form-label text-dark">Nombre de la Mercancía</label>
-                        <input type="text" class="form-control mb-3" id="nombremercancia">
-                        <label for="volumenmercancia" class="form-label text-dark">Volumen</label>
-                        <input type="number" class="form-control mb-3" id="volumenmercancia">
-                        <label for="pesomercancia" class="form-label text-dark">Peso</label>
-                        <input type="number" class="form-control mb-3" id="pesomercancia">
-                        <label for="tipodestinatariomercancia" class="form-label text-dark">Tipo de Destinatario</label>
-                        <input type="text" class="form-control mb-4" id="tipodestinatariomercancia">
-                        <button type="button" id="botonmercancia" class="btn btn-danger w-100">Registrar Mercancía</button>
-                    </form>
-                </div>
+<!-- Registro de Mercancía -->
+<section class="bg-light py-5" id="registroMercancia">
+    <div class="container">
+        <h2 class="text-center text-dark mb-4">Registro de Mercancía</h2>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <form class="p-5 border rounded shadow-sm bg-white fade-in">
+                    <label for="nombremercancia" class="form-label text-dark">Nombre de la Mercancía</label>
+                    <input type="text" class="form-control mb-3" id="nombremercancia">
+
+                    <label for="volumenmercancia" class="form-label text-dark">Volumen</label>
+                    <input type="number" class="form-control mb-3" id="volumenmercancia">
+
+                    <label for="pesomercancia" class="form-label text-dark">Peso</label>
+                    <input type="number" class="form-control mb-3" id="pesomercancia">
+
+                    <label for="tipodestinatariomercancia" class="form-label text-dark">Tipo de Destinatario</label>
+                    <input type="text" class="form-control mb-3" id="tipodestinatariomercancia">
+
+                    <label for="idzona" class="form-label text-dark">Zona de Almacenamiento</label>
+                    <select class="form-control mb-3" id="idzona">
+                        <option value="" disabled selected>Seleccione una zona...</option>
+                        <!-- Las opciones se llenarán dinámicamente con JavaScript -->
+                    </select>
+
+                    <label for="departamentomercancia" class="form-label text-dark">Departamento</label>
+                    <input type="text" class="form-control mb-3" id="departamentomercancia">
+
+                    <label for="ciudadmercancia" class="form-label text-dark">Ciudad</label>
+                    <input type="text" class="form-control mb-3" id="ciudadmercancia">
+
+                    <label for="nombredestinatariomercancia" class="form-label text-dark">Nombre del Destinatario</label>
+                    <input type="text" class="form-control mb-3" id="nombredestinatariomercancia">
+
+                    <label for="direccionmercancia" class="form-label text-dark">Dirección de Destino</label>
+                    <input type="text" class="form-control mb-3" id="direccionmercancia">
+
+                    <label for="fechaingresomercancia" class="form-label text-dark">Fecha de Ingreso</label>
+                    <input type="date" class="form-control mb-3" id="fechaingresomercancia">
+
+                    <label for="fechasalidamercancia" class="form-label text-dark">Fecha de Salida</label>
+                    <input type="date" class="form-control mb-4" id="fechasalidamercancia">
+
+                    <button type="button" id="botonmercancia" class="btn btn-danger w-100">Registrar Mercancía</button>
+                </form>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
     <!-- Visualización de Registros -->
     <section class="section-bg" id="visualizar">

@@ -1,5 +1,5 @@
 import { registrarMercancia } from "../services/servicioMercancia.js";
-import { consultarMercancias } from "../services/servicioConsultaZona.js";
+import { consultarZonas } from "../services/servicioZonaBodega.js";
 
 // Referencias a los elementos del formulario
 let botonRegistroMercancia = document.getElementById("botonmercancia");
@@ -13,33 +13,56 @@ let nombreDestinatarioMercancia = document.getElementById("nombredestinatariomer
 let direccionMercancia = document.getElementById("direccionmercancia");
 let fechaIngresoMercancia = document.getElementById("fechaingresomercancia");
 let fechaSalidaMercancia = document.getElementById("fechasalidamercancia");
-let idZona = 1; // ID de zona estática, cambiarlo según tus necesidades o hacerlo dinámico
+let selectZona = document.getElementById("idzona"); // Selector dinámico para idZona
+
+// Cargar zonas dinámicamente en el select
+async function cargarZonas() {
+    try {
+        const zonas = await consultarZonas();
+        selectZona.innerHTML = ""; // Limpia las opciones existentes
+        zonas.forEach((zona) => {
+            let opcion = document.createElement("option");
+            opcion.value = zona.idZona;
+            opcion.textContent = `${zona.nombreZona} (ID: ${zona.idZona})`;
+            selectZona.appendChild(opcion);
+        });
+    } catch (error) {
+        console.error("Error al cargar las zonas:", error);
+        Swal.fire({
+            title: "Error",
+            text: "No se pudieron cargar las zonas de bodega.",
+            icon: "error"
+        });
+    }
+}
 
 // Detectar evento de clic en el botón de registro
 botonRegistroMercancia.addEventListener("click", async function (evento) {
     evento.preventDefault();
 
+    // Obtener el idZona seleccionado
+    let idZonaSeleccionada = parseInt(selectZona.value);
+
     // Crear objeto con los datos de la mercancía
     let objetoMercancia = {
-        "volumen": parseFloat(volumenMercancia.value),
-        "peso": parseFloat(pesoMercancia.value),
-        "nombre": nombreMercancia.value,
-        "tipoDestinatario": tipoDestinatarioMercancia.value,
-        "nombreDestinatario": nombreDestinatarioMercancia.value,
-        "departamento": departamentoMercancia.value,
-        "ciudad": ciudadMercancia.value,
-        "direccion": direccionMercancia.value,
-        "fechaIngreso": fechaIngresoMercancia.value,
-        "fechaSalida": fechaSalidaMercancia.value,
-        "zonabodega": {
-            "idZona": idZona // Puedes hacer esto dinámico según el sistema de zonas
+        volumen: parseFloat(volumenMercancia.value),
+        peso: parseFloat(pesoMercancia.value),
+        nombre: nombreMercancia.value,
+        tipoDestinatario: tipoDestinatarioMercancia.value,
+        nombreDestinatario: nombreDestinatarioMercancia.value,
+        departamento: departamentoMercancia.value,
+        ciudad: ciudadMercancia.value,
+        direccion: direccionMercancia.value,
+        fechaIngreso: fechaIngresoMercancia.value,
+        fechaSalida: fechaSalidaMercancia.value,
+        zonabodega: {
+            idZona: idZonaSeleccionada
         }
     };
 
     try {
         // Llamado al API para registrar mercancía
         const respuesta = await registrarMercancia(objetoMercancia);
-        
         Swal.fire({
             title: "¡Registro exitoso!",
             text: "Mercancía registrada con éxito.",
@@ -72,6 +95,7 @@ function limpiarFormulario() {
     direccionMercancia.value = "";
     fechaIngresoMercancia.value = "";
     fechaSalidaMercancia.value = "";
+    selectZona.selectedIndex = 0; // Restablecer el select al valor por defecto
 }
 
 // Función para consultar y actualizar la lista de mercancías
@@ -128,3 +152,6 @@ async function actualizarListaMercancias() {
 // Llamar a la función para cargar la lista de mercancías al cargar la página
 let fila = document.getElementById("fila");
 actualizarListaMercancias();
+
+// Llamar a la función para cargar las zonas disponibles
+cargarZonas();
