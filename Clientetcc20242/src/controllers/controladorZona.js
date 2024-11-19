@@ -1,4 +1,4 @@
-import { registrarZonaBodega } from "../services/servicioZonaBodega.js";
+import { registrarZonaBodega, consultarZonas } from "../services/servicioZonaBodega.js";
 
 // Evento para registrar la zona de bodega
 document.getElementById("botonRegistrarZona").addEventListener("click", async function (evento) {
@@ -34,6 +34,9 @@ document.getElementById("botonRegistrarZona").addEventListener("click", async fu
 
         limpiarFormularioZona();
 
+        // Actualizar el select de zonas después del registro
+        cargarZonas();
+
     } catch (error) {
         // Manejo de errores
         Swal.fire({
@@ -50,3 +53,45 @@ function limpiarFormularioZona() {
     document.getElementById("capacidadMaxVolumen").value = "";
     document.getElementById("capacidadMaxPeso").value = "";
 }
+
+// Referencia al select de zonas (si existe en la página)
+let selectZona = document.getElementById("idzona");
+
+// Función para cargar zonas desde el backend y llenar el select
+export async function cargarZonas() {
+    try {
+        // Consultar las zonas desde el backend
+        const zonas = await consultarZonas();
+
+        // Verificar si el elemento select existe en el DOM
+        if (!selectZona) {
+            console.warn("El elemento con id 'idzona' no existe en el DOM.");
+            return;
+        }
+
+        // Limpiar las opciones existentes
+        selectZona.innerHTML = "";
+
+        // Agregar opciones al select
+        zonas.forEach((zona) => {
+            let opcion = document.createElement("option");
+            opcion.value = zona.idZona; // Asignar el idZona como valor de la opción
+            opcion.textContent = `${zona.nombreZona} (ID: ${zona.idZona})`;
+            selectZona.appendChild(opcion);
+        });
+
+        console.log("Zonas cargadas exitosamente en el select.");
+    } catch (error) {
+        console.error("Error al cargar las zonas desde el backend:", error);
+
+        // Mostrar un mensaje de error al usuario
+        Swal.fire({
+            title: "Error",
+            text: "No se pudieron cargar las zonas de almacenamiento.",
+            icon: "error"
+        });
+    }
+}
+
+// Llamar a la función para cargar las zonas al cargar la página
+cargarZonas();
